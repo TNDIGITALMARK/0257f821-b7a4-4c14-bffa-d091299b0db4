@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Image from 'next/image';
 import {
   TrendingUp,
   Users,
@@ -49,10 +50,30 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="mb-12">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 p-8 md:p-12">
+            {/* Hero Background Image */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src="/generated/hero-background.png"
+                alt="Sports betting arena background"
+                fill
+                className="object-cover opacity-30"
+                priority
+              />
+            </div>
             <div className="relative z-10">
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-                SportsBet Community Hub
-              </h1>
+              {/* Logo and Title */}
+              <div className="flex items-center gap-4 mb-6">
+                <Image
+                  src="/generated/sportsbet-logo.png"
+                  alt="SportsBet Community Hub Logo"
+                  width={80}
+                  height={80}
+                  className="rounded-full bg-background/20 p-2"
+                />
+                <h1 className="text-4xl md:text-6xl font-bold text-foreground hero-text-shadow">
+                  SportsBet Community Hub
+                </h1>
+              </div>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
                 Join the ultimate social sports betting platform. Compete with friends,
                 climb leaderboards, and prove your sports knowledge in friendly communities.
@@ -60,25 +81,25 @@ export default function HomePage() {
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4">
+                <div className="card-premium rounded-lg p-4 hover-lift">
                   <div className="text-2xl font-bold text-primary">
                     {mockCommunityStats.totalCommunities}
                   </div>
                   <div className="text-sm text-muted-foreground">Communities</div>
                 </div>
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4">
+                <div className="card-premium rounded-lg p-4 hover-lift">
                   <div className="text-2xl font-bold text-primary">
                     {mockCommunityStats.totalMembers.toLocaleString()}
                   </div>
                   <div className="text-sm text-muted-foreground">Members</div>
                 </div>
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4">
+                <div className="card-premium rounded-lg p-4 hover-lift">
                   <div className="text-2xl font-bold text-primary">
                     {mockCommunityStats.activeBets.toLocaleString()}
                   </div>
                   <div className="text-sm text-muted-foreground">Active Bets</div>
                 </div>
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4">
+                <div className="card-premium rounded-lg p-4 hover-lift">
                   <div className="text-2xl font-bold text-primary">
                     {(mockCommunityStats.totalPointsPool / 1000000).toFixed(1)}M
                   </div>
@@ -86,18 +107,19 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <Button size="lg" className="mr-4">
+              <Button size="lg" className="mr-4 neon-glow hover:scale-105 transition-transform">
                 <Plus className="w-5 h-5 mr-2" />
                 Create Community
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="glass-effect hover:scale-105 transition-transform">
                 <Target className="w-5 h-5 mr-2" />
                 Place First Bet
               </Button>
             </div>
 
-            {/* Background gradient overlay */}
+            {/* Background gradient overlays */}
             <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/40" />
           </div>
         </section>
 
@@ -146,9 +168,21 @@ export default function HomePage() {
                 </Button>
               </div>
 
+              {/* Sports Collage Image */}
+              <div className="relative mb-6 rounded-xl overflow-hidden">
+                <Image
+                  src="/generated/sports-collage.png"
+                  alt="Sports action collage"
+                  width={800}
+                  height={400}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {mockTrendingBets.map((bet) => (
-                  <Card key={bet.id} className="bg-card/50 border-border/30 hover-lift">
+                  <Card key={bet.id} className="card-premium border-border/30 hover-lift">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant="outline" className="text-xs">
@@ -192,6 +226,22 @@ export default function HomePage() {
                 </TabsList>
 
                 <TabsContent value="communities" className="mt-6">
+                  {/* Community Celebration Image */}
+                  <div className="relative mb-8 rounded-xl overflow-hidden">
+                    <Image
+                      src="/generated/community-celebration.png"
+                      alt="Community celebration"
+                      width={600}
+                      height={300}
+                      className="w-full h-40 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 className="text-xl font-bold text-white mb-2">Join Our Winning Community</h3>
+                      <p className="text-white/80 text-sm">Connect with fellow sports enthusiasts and climb the leaderboards together!</p>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {filteredCommunities.map((community) => (
                       <CommunityCard
@@ -222,7 +272,7 @@ export default function HomePage() {
           <div className="xl:col-span-1 space-y-6">
 
             {/* User Stats Card */}
-            <Card>
+            <Card className="card-premium float-animation">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg flex items-center gap-2">
                   <BarChart3 className="w-5 h-5" />
@@ -279,7 +329,7 @@ export default function HomePage() {
             </Card>
 
             {/* Top Performers */}
-            <Card>
+            <Card className="card-premium">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Trophy className="w-5 h-5" />
@@ -303,7 +353,7 @@ export default function HomePage() {
             </Card>
 
             {/* Quick Actions */}
-            <Card>
+            <Card className="card-premium">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg">Quick Actions</CardTitle>
               </CardHeader>

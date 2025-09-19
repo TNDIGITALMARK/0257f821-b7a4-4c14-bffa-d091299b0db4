@@ -219,3 +219,58 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px -5px hsla(var(--primary), 0.3);
 }
+
+/* Enhanced visual effects */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-glow {
+  box-shadow: 0 0 20px hsla(var(--primary), 0.5);
+  border: 1px solid hsla(var(--primary), 0.3);
+}
+
+.hero-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.image-overlay-gradient {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 50%,
+    hsla(var(--background), 0.8) 100%
+  );
+}
+
+/* Improved animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Enhanced gradients */
+.premium-gradient {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--primary), 0.8) 0%,
+    hsla(var(--secondary), 0.6) 50%,
+    hsla(var(--accent), 0.4) 100%
+  );
+}
+
+.card-premium {
+  background: linear-gradient(
+    145deg,
+    hsla(var(--card), 0.95) 0%,
+    hsla(var(--card), 0.85) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid hsla(var(--border), 0.5);
+}
