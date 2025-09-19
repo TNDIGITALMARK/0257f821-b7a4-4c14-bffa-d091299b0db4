@@ -5,82 +5,97 @@ All colors MUST be HSL.
 */
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  /* SportsBet Community Hub - Deep Navy Theme */
+  --background: 210 46% 15%; /* Deep navy blue #1A2E4C */
+  --foreground: 210 40% 98%; /* Light text */
 
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card: 210 40% 18%; /* Slightly lighter navy for cards */
+  --card-foreground: 210 40% 98%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover: 210 40% 18%;
+  --popover-foreground: 210 40% 98%;
 
-  --primary: 222.2 47.4% 11.2%;
+  --primary: 354 70% 54%; /* NBA Red #C8102E */
   --primary-foreground: 210 40% 98%;
 
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 210 100% 25%; /* NFL Blue #013369 */
+  --secondary-foreground: 210 40% 98%;
 
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 210 30% 25%;
+  --muted-foreground: 210 20% 65%;
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 120 60% 50%; /* Green for positive values */
+  --accent-foreground: 210 40% 98%;
 
-  --destructive: 0 84.2% 60.2%;
+  --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  --border: 210 30% 25%;
+  --input: 210 30% 20%;
+  --ring: 354 70% 54%;
 
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 
-  --sidebar-background: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Sport-specific accent colors */
+  --nba-red: 354 70% 54%; /* #C8102E */
+  --nfl-blue: 210 100% 25%; /* #013369 */
+  --mlb-blue: 220 100% 30%; /* #041E42 */
+  --nhl-orange: 25 100% 60%; /* #FF6900 */
+
+  /* Status colors */
+  --success: 120 60% 50%;
+  --warning: 45 100% 60%;
+  --danger: 0 84% 60%;
+
+  /* Sidebar colors for dark theme */
+  --sidebar-background: 210 50% 12%;
+  --sidebar-foreground: 210 40% 90%;
+  --sidebar-primary: 354 70% 54%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 210 40% 18%;
+  --sidebar-accent-foreground: 210 40% 90%;
+  --sidebar-border: 210 30% 20%;
+  --sidebar-ring: 354 70% 54%;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
+  /* Dark mode inherits the same SportsBet theme */
+  --background: 210 46% 15%; /* Deep navy blue #1A2E4C */
   --foreground: 210 40% 98%;
 
-  --card: 222.2 84% 4.9%;
+  --card: 210 40% 18%;
   --card-foreground: 210 40% 98%;
 
-  --popover: 222.2 84% 4.9%;
+  --popover: 210 40% 18%;
   --popover-foreground: 210 40% 98%;
 
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
+  --primary: 354 70% 54%; /* NBA Red */
+  --primary-foreground: 210 40% 98%;
 
-  --secondary: 217.2 32.6% 17.5%;
+  --secondary: 210 100% 25%; /* NFL Blue */
   --secondary-foreground: 210 40% 98%;
 
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --muted: 210 30% 25%;
+  --muted-foreground: 210 20% 65%;
 
-  --accent: 217.2 32.6% 17.5%;
+  --accent: 120 60% 50%;
   --accent-foreground: 210 40% 98%;
 
-  --destructive: 0 62.8% 30.6%;
+  --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
-  --sidebar-background: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
+  --border: 210 30% 25%;
+  --input: 210 30% 20%;
+  --ring: 354 70% 54%;
+
+  --sidebar-background: 210 50% 12%;
+  --sidebar-foreground: 210 40% 90%;
+  --sidebar-primary: 354 70% 54%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 210 40% 18%;
+  --sidebar-accent-foreground: 210 40% 90%;
+  --sidebar-border: 210 30% 20%;
+  --sidebar-ring: 354 70% 54%;
 }
 
 @theme {
@@ -88,34 +103,45 @@ All colors MUST be HSL.
   --container-center: true;
   --container-padding: 2rem;
   
-  /* Color System */
+  /* SportsBet Color System */
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  
+
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  
+
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  
+
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  
+
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  
+
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-  
+
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-  
+
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
-  
+
+  /* Sport-specific colors */
+  --color-nba: hsl(var(--nba-red));
+  --color-nfl: hsl(var(--nfl-blue));
+  --color-mlb: hsl(var(--mlb-blue));
+  --color-nhl: hsl(var(--nhl-orange));
+
+  /* Status colors */
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
+
   --color-sidebar: hsl(var(--sidebar-background));
   --color-sidebar-foreground: hsl(var(--sidebar-foreground));
   --color-sidebar-primary: hsl(var(--sidebar-primary));
@@ -160,4 +186,34 @@ All colors MUST be HSL.
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* SportsBet specific utilities */
+.sportsbet-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+}
+
+.sport-nba { color: hsl(var(--nba-red)); }
+.sport-nfl { color: hsl(var(--nfl-blue)); }
+.sport-mlb { color: hsl(var(--mlb-blue)); }
+.sport-nhl { color: hsl(var(--nhl-orange)); }
+
+.bg-sport-nba { background-color: hsl(var(--nba-red)); }
+.bg-sport-nfl { background-color: hsl(var(--nfl-blue)); }
+.bg-sport-mlb { background-color: hsl(var(--mlb-blue)); }
+.bg-sport-nhl { background-color: hsl(var(--nhl-orange)); }
+
+/* Status indicators */
+.status-winning { color: hsl(var(--success)); }
+.status-losing { color: hsl(var(--danger)); }
+.status-neutral { color: hsl(var(--muted-foreground)); }
+
+/* Card hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px hsla(var(--primary), 0.3);
 }
