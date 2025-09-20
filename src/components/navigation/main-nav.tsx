@@ -26,6 +26,7 @@ import {
   X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CreateBetModal } from '@/components/create-bet-modal';
 
 interface MainNavProps {
   user?: {
@@ -142,10 +143,14 @@ export function MainNav({ user, className }: MainNavProps) {
           )}
 
           {/* Create Bet */}
-          <Button size="sm" className="hidden sm:flex">
-            <Plus className="w-4 h-4 mr-2" />
-            Create Bet
-          </Button>
+          <CreateBetModal
+            trigger={
+              <Button size="sm" className="hidden sm:flex">
+                <Plus className="w-4 h-4 mr-2" />
+                Create Bet
+              </Button>
+            }
+          />
 
           {/* Mobile Menu Button */}
           <Button
@@ -192,10 +197,14 @@ export function MainNav({ user, className }: MainNavProps) {
 
               {/* Mobile Actions */}
               <div className="pt-4 border-t border-border/40 space-y-2">
-                <Button size="sm" className="w-full justify-start">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Bet
-                </Button>
+                <CreateBetModal
+                  trigger={
+                    <Button size="sm" className="w-full justify-start">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Bet
+                    </Button>
+                  }
+                />
 
                 <Button variant="ghost" size="sm" className="w-full justify-start">
                   <Search className="w-4 h-4 mr-2" />

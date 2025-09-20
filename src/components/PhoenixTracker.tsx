@@ -2,6 +2,15 @@
 
 import { useEffect, useState, useCallback } from 'react';
 
+declare global {
+  interface Window {
+    __PHOENIX_TRACKING__?: {
+      enableSelection: () => void;
+      disableSelection: () => void;
+    };
+  }
+}
+
 /**
  * Phoenix Tracking Client Component
  * This component handles all client-side tracking functionality
@@ -10,7 +19,25 @@ import { useEffect, useState, useCallback } from 'react';
  * Respects URL parameter ?phoenix_tracking=disabled for toggle control.
  */
 export function PhoenixTracker() {
-  const [shouldLoadTracking, setShouldLoadTracking] = useState(true); // DEFAULT TO ENABLED
+  // Check URL parameter BEFORE initializing state
+  const getInitialTrackingState = () => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const phoenixTrackingParam = urlParams.get('phoenix_tracking');
+      const isDisabled = phoenixTrackingParam === 'disabled';
+      
+      console.log('🎯 PhoenixTracker: Initial state check:', {
+        phoenixTrackingParam,
+        isDisabled,
+        url: window.location.href
+      });
+      
+      return !isDisabled; // Return true if NOT disabled
+    }
+    return true; // Default to enabled only if window is not available
+  };
+  
+  const [shouldLoadTracking, setShouldLoadTracking] = useState(getInitialTrackingState);
 
   // Function to check URL parameters AND listen for parent messages
   const checkTrackingState = useCallback(() => {
@@ -57,26 +84,47 @@ export function PhoenixTracker() {
   useEffect(() => {
     if (!shouldLoadTracking) {
       console.log('🚫 PhoenixTracker: Skipping tracking load - disabled');
+      
+      // Disable tracking if it was previously enabled
+      if (window.__PHOENIX_TRACKING__) {
+        window.__PHOENIX_TRACKING__.disableSelection();
+      }
       return;
     }
 
     console.log('🎯 PhoenixTracker: Loading tracking assets...');
 
-    // Load tracking styles dynamically
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/phoenix-tracking.css';
-    link.id = 'phoenix-tracking-styles';
-    document.head.appendChild(link);
+    // Check if assets already exist before adding them
+    let linkExists = document.querySelector('#phoenix-tracking-styles');
+    if (!linkExists) {
+      // Load tracking styles dynamically
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/phoenix-tracking.css';
+      link.id = 'phoenix-tracking-styles';
+      document.head.appendChild(link);
+      console.log('✅ PhoenixTracker: Added tracking styles');
+    } else {
+      console.log('ℹ️ PhoenixTracker: Tracking styles already loaded');
+    }
 
-    // Load tracking script dynamically
-    const script = document.createElement('script');
-    script.src = '/phoenix-tracking.js';
-    script.async = true;
-    script.id = 'phoenix-tracking-script';
-    document.body.appendChild(script);
-
-    console.log('✅ PhoenixTracker: Tracking assets loaded');
+    let scriptExists = document.querySelector('#phoenix-tracking-script');
+    if (!scriptExists) {
+      // Load tracking script dynamically
+      const script = document.createElement('script');
+      script.src = '/phoenix-tracking.js';
+      script.async = true;
+      script.id = 'phoenix-tracking-script';
+      document.body.appendChild(script);
+      console.log('✅ PhoenixTracker: Added tracking script');
+    } else {
+      console.log('ℹ️ PhoenixTracker: Tracking script already loaded');
+      
+      // If script exists and tracking should be enabled, re-enable selection
+      if (window.__PHOENIX_TRACKING__) {
+        window.__PHOENIX_TRACKING__.enableSelection();
+      }
+    }
 
     // Cleanup function
     return () => {
