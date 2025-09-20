@@ -1,7 +1,7 @@
 /**
  * Phoenix Tracking Asset: phoenix-tracking.css
- * Build-Time Generated: 2025-09-19T19:20:03.477Z
- * Content Hash: 8acfdbcb
+ * Build-Time Generated: 2025-09-20T18:16:55.244Z
+ * Content Hash: f571da7d
  * 
  * This asset is managed by Phoenix BuildTimeTrackingManager.
  * DO NOT EDIT MANUALLY - changes will be overwritten.
@@ -11,7 +11,7 @@
  * Phoenix Tracking Styles - Build-Time Edition
  * Generated for production builds - survives Next.js compilation
  * 
- * Generated at: 2025-09-19T19:20:03.466Z
+ * Generated at: 2025-09-20T18:16:55.240Z
  * Animations: enabled
  * HUD: enabled
  */
@@ -24,7 +24,7 @@ body[data-phoenix-selection-active="true"] {
   user-select: none !important;
 }
 
-body[data-phoenix-selection-active="true"] * {
+body[data-phoenix-selection-active="true"] [data-phoenix-id] {
   cursor: crosshair !important;
 }
 
@@ -336,9 +336,9 @@ body:not([data-phoenix-disabled]) [data-phoenix-id][data-phoenix-type="element"]
   }
 }
 
-/* Reduced motion support */
+/* Reduced motion support - only affect Phoenix elements */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  [data-phoenix-id] {
     animation: none !important;
     transition: none !important;
   }
