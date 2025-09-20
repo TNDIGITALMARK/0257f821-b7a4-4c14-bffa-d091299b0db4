@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   NavigationMenu,
@@ -75,12 +76,16 @@ export function MainNav({ user, className }: MainNavProps) {
       <div className="container flex h-16 items-center">
         {/* Logo */}
         <Link href="/" className="mr-8 flex items-center space-x-2">
-          <div className="flex items-center">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="ml-2 text-xl font-bold text-foreground">
-              BetSphere
+          <div className="flex items-center gap-3">
+            <Image
+              src="/generated/sportsbet-logo.png"
+              alt="SportsBet Community Hub Logo"
+              width={40}
+              height={40}
+              className="rounded-full bg-background/20 p-1"
+            />
+            <span className="text-xl font-bold text-foreground">
+              SportsBet Community Hub
             </span>
           </div>
         </Link>
