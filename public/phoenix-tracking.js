@@ -1,7 +1,7 @@
 /**
  * Phoenix Tracking Asset: phoenix-tracking.js
- * Build-Time Generated: 2025-09-20T19:15:31.189Z
- * Content Hash: 7a726a78
+ * Build-Time Generated: 2025-09-20T22:01:20.754Z
+ * Content Hash: 091b8e6c
  * 
  * This asset is managed by Phoenix BuildTimeTrackingManager.
  * DO NOT EDIT MANUALLY - changes will be overwritten.
@@ -12,7 +12,7 @@
  * Generated for production builds - survives Next.js compilation
  * 
  * Project ID: 0257f821-b7a4-4c14-bffa-d091299b0db4
- * Generated at: 2025-09-20T19:15:31.187Z
+ * Generated at: 2025-09-20T22:01:20.752Z
  * Framework: next.js
  * Type: app-router
  */
@@ -47,7 +47,7 @@
         this.targetOrigin = '*';
         
         // Build-time specific properties
-        this.buildTime = '2025-09-20T19:15:31.187Z';
+        this.buildTime = '2025-09-20T22:01:20.752Z';
         this.trackingMode = 'build-time';
         this.framework = 'next.js';
         this.projectType = 'app-router';
@@ -81,8 +81,8 @@
         try {
           console.log('🎯 Setting up Phoenix build-time tracking...');
           
-          // Count existing phoenix IDs (already injected during build)
-          this.countExistingPhoenixIds();
+          // Add data-phoenix-id attributes to components (fallback for disabled ComponentRegistry)
+          this.addPhoenixIds();
           
           // Set up event listeners
           this.setupEventListeners();
@@ -121,22 +121,44 @@
         }
       }
 
-      countExistingPhoenixIds() {
-        // Count existing phoenix IDs that were injected during build time
-        const phoenixElements = document.querySelectorAll('[data-phoenix-id]');
+      addPhoenixIds() {
+        // Add tracking IDs to all interactive elements (fallback for disabled ComponentRegistry)
+        const elements = document.querySelectorAll('*');
+        let counter = 0;
         
-        phoenixElements.forEach(element => {
-          const phoenixId = element.getAttribute('data-phoenix-id');
-          if (phoenixId) {
-            // Create enhanced tracking data with React Fiber inspection
-            const trackingData = this.createElementData(element);
-            this.trackingElements.set(phoenixId, trackingData);
-            this.componentCounter++;
+        elements.forEach(element => {
+          // FIXED: Skip elements without tagName to prevent TypeError
+          if (!element.tagName) {
+            return;
           }
+          
+          // Skip non-interactive elements like script, style, head content
+          if (element.tagName === 'SCRIPT' || 
+              element.tagName === 'STYLE' || 
+              element.tagName === 'META' ||
+              element.tagName === 'TITLE' ||
+              element.closest('head')) {
+            return;
+          }
+          
+          // Skip elements that already have phoenix IDs
+          if (element.hasAttribute('data-phoenix-id')) {
+            return;
+          }
+          
+          // Generate tracking data using SimplePreviewSessionService approach
+          const phoenixId = 'phoenix-' + Date.now() + '-' + (++counter);
+          element.setAttribute('data-phoenix-id', phoenixId);
+          
+          // Create enhanced tracking data with React Fiber inspection
+          const trackingData = this.createElementData(element);
+          this.trackingElements.set(phoenixId, trackingData);
+          
+          this.componentCounter++;
         });
         
         if (this.debugMode) {
-          console.log('🏷️ Found ' + this.componentCounter + ' elements with build-time Phoenix IDs');
+          console.log('🏷️ Added Phoenix IDs to ' + this.componentCounter + ' elements');
         }
       }
 
