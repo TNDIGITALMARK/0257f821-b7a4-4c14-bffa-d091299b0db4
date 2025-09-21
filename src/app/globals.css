@@ -362,3 +362,28 @@ body {
   backdrop-filter: blur(20px);
   border: 1px solid hsla(var(--border), 0.5);
 }
+
+/* Hero section enhancements */
+.hero-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .hero-logo-container {
+    justify-content: flex-start;
+    width: auto;
+  }
+}
+
+.hero-content {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .hero-content {
+    text-align: left;
+  }
+}

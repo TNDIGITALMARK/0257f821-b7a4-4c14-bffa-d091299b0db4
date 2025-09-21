@@ -65,8 +65,8 @@ export default function HomePage() {
             </div>
             <div className="relative z-10">
               {/* Logo and Title */}
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
-                <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 mb-8">
+                <div className="hero-logo-container">
                   <Image
                     src="/generated/sportsbet-logo.png"
                     alt="SportsBet Community Hub Logo"
@@ -75,7 +75,7 @@ export default function HomePage() {
                     className="rounded-full bg-background/30 p-3 ring-2 ring-primary/30 shadow-xl"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 hero-content w-full md:w-auto">
                   <h1 className="text-5xl md:text-7xl font-extrabold text-foreground hero-text-shadow leading-tight">
                     <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
                       SportsBet
@@ -125,7 +125,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 items-start">
+              <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-start justify-center md:justify-start">
                 <Button 
                   size="lg" 
                   className="cta-button-primary neon-glow hover:scale-105 transition-all duration-300 font-bold text-lg px-8 py-4 shadow-2xl"
