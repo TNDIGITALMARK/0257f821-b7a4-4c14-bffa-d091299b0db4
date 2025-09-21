@@ -117,7 +117,12 @@ export default function HomePage() {
                 <Plus className="w-5 h-5 mr-2" />
                 Create Community
               </Button>
-              <Button variant="outline" size="lg" className="glass-effect hover:scale-105 transition-transform">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="glass-effect hover:scale-105 transition-transform"
+                onClick={() => router.push('/my-bets')}
+              >
                 <Target className="w-5 h-5 mr-2" />
                 Place First Bet
               </Button>

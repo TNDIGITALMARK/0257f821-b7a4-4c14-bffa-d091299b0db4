@@ -65,15 +65,9 @@
           });
         }
         
-        // CRITICAL: Check if tracking is disabled via URL parameter IMMEDIATELY
-        const urlParams = new URLSearchParams(window.location.search);
-        const trackingDisabled = urlParams.get('phoenix_tracking') === 'disabled';
-        
-        if (trackingDisabled) {
-          console.log('🚫 Phoenix tracking DISABLED by URL parameter - blocking initialization');
-          this.setupNavigationInterception(); // Still setup navigation interception
-          return; // DON'T initialize tracking
-        }
+        // CRITICAL: Always initialize tracking, but check state via PhoenixTracker component
+        // The URL parameter is just a fallback - the real state comes from the API
+        console.log('🎯 Phoenix tracking initializing regardless of URL parameter - PhoenixTracker will control state');
         
         try {
           if (document.readyState === 'loading') {
