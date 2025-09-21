@@ -1,7 +1,7 @@
 /**
  * Phoenix Tracking Asset: phoenix-tracking.js
- * Build-Time Generated: 2025-09-20T22:36:23.662Z
- * Content Hash: f20acbb7
+ * Build-Time Generated: 2025-09-21T00:52:11.608Z
+ * Content Hash: d31ed5c4
  * 
  * This asset is managed by Phoenix BuildTimeTrackingManager.
  * DO NOT EDIT MANUALLY - changes will be overwritten.
@@ -12,7 +12,7 @@
  * Generated for production builds - survives Next.js compilation
  * 
  * Project ID: 0257f821-b7a4-4c14-bffa-d091299b0db4
- * Generated at: 2025-09-20T22:36:23.660Z
+ * Generated at: 2025-09-21T00:52:11.605Z
  * Framework: next.js
  * Type: app-router
  */
@@ -47,7 +47,7 @@
         this.targetOrigin = '*';
         
         // Build-time specific properties
-        this.buildTime = '2025-09-20T22:36:23.660Z';
+        this.buildTime = '2025-09-21T00:52:11.605Z';
         this.trackingMode = 'build-time';
         this.framework = 'next.js';
         this.projectType = 'app-router';
@@ -63,6 +63,16 @@
             projectType: this.projectType,
             buildTime: this.buildTime
           });
+        }
+        
+        // CRITICAL: Check if tracking is disabled via URL parameter IMMEDIATELY
+        const urlParams = new URLSearchParams(window.location.search);
+        const trackingDisabled = urlParams.get('phoenix_tracking') === 'disabled';
+        
+        if (trackingDisabled) {
+          console.log('🚫 Phoenix tracking DISABLED by URL parameter - blocking initialization');
+          this.setupNavigationInterception(); // Still setup navigation interception
+          return; // DON'T initialize tracking
         }
         
         try {
@@ -81,8 +91,29 @@
         try {
           console.log('🎯 Setting up Phoenix build-time tracking...');
           
-          // Add data-phoenix-id attributes to components (fallback for disabled ComponentRegistry)
-          this.addPhoenixIds();
+          // Wait for React to finish rendering before adding IDs
+          // This prevents the "massive blob" issue where entire containers get tracked
+          const addIdsWithDelay = () => {
+            // Check if React is still rendering by looking for common loading indicators
+            const isLoading = document.querySelector('[data-loading]') || 
+                            document.querySelector('.loading') ||
+                            document.querySelector('[aria-busy="true"]');
+            
+            if (isLoading) {
+              console.log('⏳ Phoenix: Waiting for page to finish loading...');
+              setTimeout(addIdsWithDelay, 100);
+              return;
+            }
+            
+            // Add a small delay to ensure React has finished all renders
+            setTimeout(() => {
+              console.log('🎯 Phoenix: Page loaded, adding tracking IDs...');
+              this.addPhoenixIds();
+            }, 250);
+          };
+          
+          // Start the delayed ID addition
+          addIdsWithDelay();
           
           // Set up event listeners
           this.setupEventListeners();
@@ -302,11 +333,63 @@
         }
       }
 
+      setupNavigationInterception() {
+        console.log('🎯 Setting up navigation interception to preserve tracking state');
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const trackingDisabled = urlParams.get('phoenix_tracking') === 'disabled';
+        
+        if (!trackingDisabled) return; // Only intercept when tracking is disabled
+        
+        // Intercept all link clicks
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a[href]');
+          if (!link) return;
+          
+          const href = link.getAttribute('href');
+          if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) {
+            return; // Don't modify external links
+          }
+          
+          // Add tracking parameter to internal links
+          if (!href.includes('phoenix_tracking=disabled')) {
+            e.preventDefault();
+            const separator = href.includes('?') ? '&' : '?';
+            const newHref = href + separator + 'phoenix_tracking=disabled';
+            console.log('🎯 Intercepted navigation:', href, '→', newHref);
+            window.location.href = newHref;
+          }
+        }, true);
+        
+        // Also intercept programmatic navigation
+        const originalPushState = history.pushState;
+        const originalReplaceState = history.replaceState;
+        
+        history.pushState = function(state, title, url) {
+          if (url && !url.includes('phoenix_tracking=disabled')) {
+            const separator = url.includes('?') ? '&' : '?';
+            url = url + separator + 'phoenix_tracking=disabled';
+          }
+          return originalPushState.call(this, state, title, url);
+        };
+        
+        history.replaceState = function(state, title, url) {
+          if (url && !url.includes('phoenix_tracking=disabled')) {
+            const separator = url.includes('?') ? '&' : '?';
+            url = url + separator + 'phoenix_tracking=disabled';
+          }
+          return originalReplaceState.call(this, state, title, url);
+        };
+      }
+
       setupBridge() {
         // Listen for commands from parent frame (same as runtime)
         window.addEventListener('message', (event) => {
           if (event.data && event.data.type === 'phoenix-command') {
             this.handleCommand(event.data);
+          } else if (event.data && event.data.type === 'phoenix-query-tracking-state') {
+            // Parent is asking for tracking state - this shouldn't happen in build-time client
+            console.log('🎯 Build-time client: Received tracking state query from parent');
           }
         });
         
