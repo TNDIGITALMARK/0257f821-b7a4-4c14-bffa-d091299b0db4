@@ -91,11 +91,8 @@ export default function RootLayout({
               </TooltipProvider>
             </AuthProvider>
           </ThemeProvider>
-        </QueryProvider>
-        <PhoenixTracker />        <PhoenixTracker />
-
-
-      </body>
+        </QueryProvider>        <PhoenixTracker />
+</body>
     </html>
   );
 }
