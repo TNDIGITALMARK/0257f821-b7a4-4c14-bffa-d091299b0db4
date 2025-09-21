@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { MainNav } from '@/components/navigation/main-nav';
 import { CommunityCard } from '@/components/ui/community-card';
 import { BetCard } from '@/components/ui/bet-card';
@@ -33,6 +34,7 @@ import {
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const router = useRouter();
 
   const filteredCommunities = selectedCategory === 'all'
     ? mockCommunities
@@ -107,7 +109,11 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <Button size="lg" className="mr-4 neon-glow hover:scale-105 transition-transform">
+              <Button 
+                size="lg" 
+                className="mr-4 neon-glow hover:scale-105 transition-transform"
+                onClick={() => router.push('/communities')}
+              >
                 <Plus className="w-5 h-5 mr-2" />
                 Create Community
               </Button>
