@@ -57,7 +57,7 @@ export function PhoenixTracker() {
       }
 
       // Make API call to get tracking state using public endpoint
-      const phoenixEngineUrl = process.env.NEXT_PUBLIC_PHOENIX_ENGINE_URL || 'http://localhost:3001';
+      const phoenixEngineUrl = process.env.NEXT_PUBLIC_PHOENIX_ENGINE_URL || 'http://localhost:5001';
       const response = await fetch(`${phoenixEngineUrl}/api/trackingIframe/public/getTrackingState/${projectId}`, {
         method: 'GET',
         headers: {
@@ -189,44 +189,7 @@ export function PhoenixTracker() {
   }, [trackingStateFromApi]);
 
   useEffect(() => {
-    // CRITICAL: Always check URL parameter first, regardless of API communication
-    const urlParams = new URLSearchParams(window.location.search);
-    const phoenixTrackingParam = urlParams.get('phoenix_tracking');
-    
-    if (phoenixTrackingParam === 'disabled') {
-      console.log('🚫 PhoenixTracker: FORCE DISABLED by URL parameter - blocking all tracking');
-      
-      // Disable tracking if it was previously enabled
-      if (window.__PHOENIX_TRACKING__) {
-        window.__PHOENIX_TRACKING__.disableSelection();
-      }
-      
-      // Remove any existing tracking assets
-      const existingLink = document.querySelector('#phoenix-tracking-styles');
-      const existingScript = document.querySelector('#phoenix-tracking-script');
-      if (existingLink) existingLink.remove();
-      if (existingScript) existingScript.remove();
-      
-      return; // BLOCK ALL TRACKING
-    }
-    
-    // If we haven't received API response yet, wait
-    if (!hasReceivedApiResponse) {
-      console.log('🎯 PhoenixTracker: Waiting for API response before loading tracking...');
-      return;
-    }
-    
-    if (!shouldLoadTracking) {
-      console.log('🚫 PhoenixTracker: Skipping tracking load - disabled by API');
-      
-      // Disable tracking if it was previously enabled
-      if (window.__PHOENIX_TRACKING__) {
-        window.__PHOENIX_TRACKING__.disableSelection();
-      }
-      return;
-    }
-
-    console.log('🎯 PhoenixTracker: Loading tracking assets (enabled by API)...');
+    console.log('🎯 PhoenixTracker: ALWAYS loading tracking assets...');
 
     // Check if assets already exist before adding them
     let linkExists = document.querySelector('#phoenix-tracking-styles');
@@ -251,31 +214,72 @@ export function PhoenixTracker() {
       script.id = 'phoenix-tracking-script';
       document.body.appendChild(script);
       console.log('✅ PhoenixTracker: Added tracking script');
+      
+      // Set up a listener to control tracking state after script loads
+      script.onload = () => {
+        setTimeout(() => {
+          console.log('🎯 PhoenixTracker: Script loaded, controlling selection state...');
+          controlTrackingSelection();
+        }, 100);
+      };
     } else {
       console.log('ℹ️ PhoenixTracker: Tracking script already loaded');
-      
-      // If script exists and tracking should be enabled, re-enable selection
-      if (window.__PHOENIX_TRACKING__) {
-        window.__PHOENIX_TRACKING__.enableSelection();
-      }
+      controlTrackingSelection();
     }
 
     // Cleanup function
     return () => {
-      // Remove tracking assets when component unmounts or tracking is disabled
-      const existingLink = document.querySelector('#phoenix-tracking-styles');
-      const existingScript = document.querySelector('#phoenix-tracking-script');
-      
-      if (existingLink) {
-        existingLink.remove();
-        console.log('🧹 PhoenixTracker: Removed tracking styles');
-      }
-      if (existingScript) {
-        existingScript.remove();
-        console.log('🧹 PhoenixTracker: Removed tracking script');
-      }
+      // DON'T remove assets when component unmounts - let them persist
+      // Assets should stay loaded and just enable/disable selection state
+      console.log('🎯 PhoenixTracker: Component unmounting but keeping tracking assets loaded');
     };
-  }, [shouldLoadTracking, hasReceivedApiResponse]);
+  }, []); // Empty dependency array - only run once
+  
+  // Function to control tracking selection state
+  const controlTrackingSelection = () => {
+    if (!window.__PHOENIX_TRACKING__) {
+      console.log('⏳ PhoenixTracker: Tracking client not ready yet, retrying...');
+      setTimeout(controlTrackingSelection, 100);
+      return;
+    }
+    
+    // Check URL parameter for immediate disable
+    const urlParams = new URLSearchParams(window.location.search);
+    const phoenixTrackingParam = urlParams.get('phoenix_tracking');
+    
+    if (phoenixTrackingParam === 'disabled') {
+      console.log('🚫 PhoenixTracker: Disabling selection due to URL parameter');
+      window.__PHOENIX_TRACKING__.disableSelection();
+      return;
+    }
+    
+    // Check API state if available
+    if (trackingStateFromApi !== null) {
+      if (trackingStateFromApi) {
+        console.log('✅ PhoenixTracker: Enabling selection due to API state');
+        window.__PHOENIX_TRACKING__.enableSelection();
+      } else {
+        console.log('🚫 PhoenixTracker: Disabling selection due to API state');
+        window.__PHOENIX_TRACKING__.disableSelection();
+      }
+    } else if (hasReceivedApiResponse) {
+      // API responded but no valid state - disable
+      console.log('🚫 PhoenixTracker: Disabling selection - no valid API state');
+      window.__PHOENIX_TRACKING__.disableSelection();
+    } else {
+      // No API response yet - default to enabled
+      console.log('✅ PhoenixTracker: Enabling selection by default');
+      window.__PHOENIX_TRACKING__.enableSelection();
+    }
+  };
+
+  // Effect to respond to API tracking state changes
+  useEffect(() => {
+    if (trackingStateFromApi !== null || hasReceivedApiResponse) {
+      console.log('🎯 PhoenixTracker: API state changed, updating selection:', trackingStateFromApi);
+      controlTrackingSelection();
+    }
+  }, [trackingStateFromApi, hasReceivedApiResponse]);
 
   // Listen for URL changes and iframe navigation
   useEffect(() => {

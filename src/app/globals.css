@@ -233,7 +233,95 @@ body {
 }
 
 .hero-text-shadow {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.7),
+    0 0 30px hsla(var(--primary), 0.3),
+    0 0 60px hsla(var(--primary), 0.1);
+}
+
+/* Enhanced hero typography */
+.hero-gradient-text {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--foreground)) 0%,
+    hsl(var(--primary)) 30%,
+    hsl(var(--accent)) 60%,
+    hsl(var(--foreground)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { 
+    background-position: 0% 50%; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+  }
+}
+
+/* Enhanced stat cards */
+.stat-card-enhanced {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsla(var(--primary), 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.stat-card-enhanced:hover::before {
+  left: 100%;
+}
+
+/* Enhanced button effects */
+.cta-button-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--primary)) 50%,
+    hsl(var(--accent)) 100%
+  );
+}
+
+.cta-button-primary::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(var(--secondary))
+  );
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cta-button-primary:hover::before {
+  opacity: 1;
 }
 
 .image-overlay-gradient {

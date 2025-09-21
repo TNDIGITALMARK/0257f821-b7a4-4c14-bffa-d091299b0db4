@@ -64,68 +64,85 @@ export default function HomePage() {
             </div>
             <div className="relative z-10">
               {/* Logo and Title */}
-              <div className="flex items-center gap-4 mb-6">
-                <Image
-                  src="/generated/sportsbet-logo.png"
-                  alt="SportsBet Community Hub Logo"
-                  width={80}
-                  height={80}
-                  className="rounded-full bg-background/20 p-2"
-                />
-                <h1 className="text-4xl md:text-6xl font-bold text-foreground hero-text-shadow">
-                  SportsBet Community Hub
-                </h1>
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+                <div className="flex items-center gap-4">
+                  <Image
+                    src="/generated/sportsbet-logo.png"
+                    alt="SportsBet Community Hub Logo"
+                    width={100}
+                    height={100}
+                    className="rounded-full bg-background/30 p-3 ring-2 ring-primary/30 shadow-xl"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <h1 className="text-5xl md:text-7xl font-extrabold text-foreground hero-text-shadow leading-tight">
+                    <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+                      SportsBet
+                    </span>
+                    <br />
+                    <span className="text-4xl md:text-5xl font-bold text-primary/90">
+                      Community Hub
+                    </span>
+                  </h1>
+                  <div className="h-1 w-24 bg-gradient-to-r from-primary to-accent rounded-full" />
+                </div>
               </div>
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-                Join the ultimate social sports betting platform. Compete with friends,
-                climb leaderboards, and prove your sports knowledge in friendly communities.
-              </p>
+              <div className="mb-10 max-w-3xl">
+                <p className="text-xl md:text-2xl text-foreground/90 mb-4 font-medium leading-relaxed">
+                  Join the ultimate social sports betting platform.
+                </p>
+                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  Compete with friends, climb leaderboards, and prove your sports knowledge in thriving communities.
+                </p>
+              </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div className="card-premium rounded-lg p-4 hover-lift">
-                  <div className="text-2xl font-bold text-primary">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                <div className="card-premium stat-card-enhanced rounded-xl p-6 hover-lift text-center group">
+                  <div className="text-3xl md:text-4xl font-black text-primary mb-2 group-hover:scale-110 transition-transform">
                     {mockCommunityStats.totalCommunities}
                   </div>
-                  <div className="text-sm text-muted-foreground">Communities</div>
+                  <div className="text-sm font-semibold text-foreground/80 uppercase tracking-wider">Communities</div>
                 </div>
-                <div className="card-premium rounded-lg p-4 hover-lift">
-                  <div className="text-2xl font-bold text-primary">
+                <div className="card-premium stat-card-enhanced rounded-xl p-6 hover-lift text-center group">
+                  <div className="text-3xl md:text-4xl font-black text-primary mb-2 group-hover:scale-110 transition-transform">
                     {mockCommunityStats.totalMembers.toLocaleString()}
                   </div>
-                  <div className="text-sm text-muted-foreground">Members</div>
+                  <div className="text-sm font-semibold text-foreground/80 uppercase tracking-wider">Members</div>
                 </div>
-                <div className="card-premium rounded-lg p-4 hover-lift">
-                  <div className="text-2xl font-bold text-primary">
+                <div className="card-premium stat-card-enhanced rounded-xl p-6 hover-lift text-center group">
+                  <div className="text-3xl md:text-4xl font-black text-primary mb-2 group-hover:scale-110 transition-transform">
                     {mockCommunityStats.activeBets.toLocaleString()}
                   </div>
-                  <div className="text-sm text-muted-foreground">Active Bets</div>
+                  <div className="text-sm font-semibold text-foreground/80 uppercase tracking-wider">Active Bets</div>
                 </div>
-                <div className="card-premium rounded-lg p-4 hover-lift">
-                  <div className="text-2xl font-bold text-primary">
+                <div className="card-premium stat-card-enhanced rounded-xl p-6 hover-lift text-center group">
+                  <div className="text-3xl md:text-4xl font-black text-primary mb-2 group-hover:scale-110 transition-transform">
                     {(mockCommunityStats.totalPointsPool / 1000000).toFixed(1)}M
                   </div>
-                  <div className="text-sm text-muted-foreground">Points Pool</div>
+                  <div className="text-sm font-semibold text-foreground/80 uppercase tracking-wider">Points Pool</div>
                 </div>
               </div>
 
-              <Button 
-                size="lg" 
-                className="mr-4 neon-glow hover:scale-105 transition-transform"
-                onClick={() => router.push('/communities')}
-              >
-                <Plus className="w-5 h-5 mr-2" />
-                Create Community
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="glass-effect hover:scale-105 transition-transform"
-                onClick={() => router.push('/my-bets')}
-              >
-                <Target className="w-5 h-5 mr-2" />
-                Place First Bet
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 items-start">
+                <Button 
+                  size="lg" 
+                  className="cta-button-primary neon-glow hover:scale-105 transition-all duration-300 font-bold text-lg px-8 py-4 shadow-2xl"
+                  onClick={() => router.push('/communities')}
+                >
+                  <Plus className="w-6 h-6 mr-3" />
+                  Create Community
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="glass-effect hover:scale-105 transition-all duration-300 font-bold text-lg px-8 py-4 border-2 border-primary/30 hover:border-primary/60 hover:bg-primary/10"
+                  onClick={() => router.push('/my-bets')}
+                >
+                  <Target className="w-6 h-6 mr-3" />
+                  Place First Bet
+                </Button>
+              </div>
             </div>
 
             {/* Background gradient overlays */}
