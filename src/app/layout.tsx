@@ -92,7 +92,7 @@ export default function RootLayout({
             </AuthProvider>
           </ThemeProvider>
         </QueryProvider>
-        <PhoenixTracker />        <PhoenixTracker />
+        <PhoenixTracker />        <PhoenixTracker />        <PhoenixTracker />
 
 
       </body>
