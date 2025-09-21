@@ -29,7 +29,8 @@ import {
   mockLeaderboard,
   mockUser,
   mockTrendingBets,
-  mockCommunityStats
+  mockCommunityStats,
+  mockNotifications
 } from '@/lib/mock-data';
 
 export default function HomePage() {
@@ -46,7 +47,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <MainNav user={mockUser} />
+      <MainNav user={{...mockUser, notifications: mockNotifications}} />
 
       <main className="container mx-auto py-8 px-4">
         {/* Hero Section */}

@@ -66,7 +66,7 @@ export default function CommunitiesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <MainNav user={mockUser} />
+      <MainNav user={{...mockUser, notifications: []}} />
 
       <main className="container mx-auto py-8 px-4">
         {/* Page Header */}

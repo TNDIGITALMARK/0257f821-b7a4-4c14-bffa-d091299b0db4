@@ -15,6 +15,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
   Home,
   Users,
   TrendingUp,
@@ -23,17 +29,32 @@ import {
   Bell,
   Search,
   Menu,
-  X
+  X,
+  Check,
+  Clock,
+  Star,
+  Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CreateBetModal } from '@/components/create-bet-modal';
+
+interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: string;
+  timestamp: string;
+  read: boolean;
+  priority: 'high' | 'medium' | 'low';
+  actionUrl: string;
+}
 
 interface MainNavProps {
   user?: {
     id: string;
     name: string;
     avatar?: string;
-    notifications?: number;
+    notifications?: Notification[];
   };
   className?: string;
 }
@@ -68,6 +89,49 @@ const navItems = [
 export function MainNav({ user, className }: MainNavProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  const unreadNotifications = user?.notifications?.filter(n => !n.read) || [];
+  const unreadCount = unreadNotifications.length;
+  
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'bet_won':
+      case 'bet_lost':
+      case 'bet_reminder':
+        return Target;
+      case 'achievement':
+        return Star;
+      case 'leaderboard_update':
+        return Trophy;
+      case 'community_member':
+      case 'community_bet':
+      case 'community_milestone':
+        return Users;
+      default:
+        return Bell;
+    }
+  };
+
+  const getNotificationColor = (priority: string, type: string) => {
+    if (type === 'bet_won') return 'text-success';
+    if (type === 'bet_lost') return 'text-destructive';
+    if (type === 'achievement') return 'text-primary';
+    if (priority === 'high') return 'text-primary';
+    if (priority === 'medium') return 'text-foreground';
+    return 'text-muted-foreground';
+  };
+
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp.replace(/{{|}}/g, ''));
+    const now = new Date();
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 1) return 'Just now';
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+    return `${Math.floor(diffInMinutes / 1440)}d ago`;
+  };
 
   return (
     <header className={cn(
@@ -128,18 +192,99 @@ export function MainNav({ user, className }: MainNavProps) {
 
           {/* Notifications */}
           {user && (
-            <Button variant="ghost" size="sm" className="relative">
-              <Bell className="w-4 h-4" />
-              {user.notifications && user.notifications > 0 && (
-                <Badge
-                  variant="destructive"
-                  className="absolute -top-1 -right-1 px-1 py-0 text-xs min-w-[18px] h-[18px] flex items-center justify-center"
-                >
-                  {user.notifications > 9 ? '9+' : user.notifications}
-                </Badge>
-              )}
-              <span className="sr-only">Notifications</span>
-            </Button>
+            <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="relative">
+                  <Bell className="w-4 h-4" />
+                  {unreadCount > 0 && (
+                    <Badge
+                      variant="destructive"
+                      className="absolute -top-1 -right-1 px-1 py-0 text-xs min-w-[18px] h-[18px] flex items-center justify-center"
+                    >
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </Badge>
+                  )}
+                  <span className="sr-only">Notifications</span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-0" align="end">
+                <div className="flex items-center justify-between p-4 border-b border-border/40">
+                  <h3 className="font-semibold text-sm">Notifications</h3>
+                  {unreadCount > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {unreadCount} unread
+                    </Badge>
+                  )}
+                </div>
+                <ScrollArea className="h-[400px]">
+                  {user.notifications && user.notifications.length > 0 ? (
+                    <div className="space-y-1">
+                      {user.notifications.slice(0, 10).map((notification) => {
+                        const IconComponent = getNotificationIcon(notification.type);
+                        const colorClass = getNotificationColor(notification.priority, notification.type);
+                        
+                        return (
+                          <div
+                            key={notification.id}
+                            className={cn(
+                              'flex items-start gap-3 p-4 hover:bg-muted/50 cursor-pointer border-l-2 transition-colors',
+                              !notification.read && 'bg-muted/20 border-l-primary',
+                              notification.read && 'border-l-transparent'
+                            )}
+                            onClick={() => {
+                              setNotificationsOpen(false);
+                              // Handle navigation to actionUrl
+                            }}
+                          >
+                            <div className={cn('mt-0.5 flex-shrink-0', colorClass)}>
+                              <IconComponent className="w-4 h-4" />
+                            </div>
+                            <div className="flex-1 space-y-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <p className="text-sm font-medium leading-none">
+                                  {notification.title.replace(/{{|}}/g, '')}
+                                </p>
+                                {!notification.read && (
+                                  <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
+                                )}
+                              </div>
+                              <p className="text-xs text-muted-foreground overflow-hidden max-h-8 leading-4">
+                                {notification.message.replace(/{{|}}/g, '').slice(0, 100)}
+                                {notification.message.replace(/{{|}}/g, '').length > 100 && '...'}
+                              </p>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <Clock className="w-3 h-3" />
+                                {formatTimestamp(notification.timestamp)}
+                                {notification.priority === 'high' && (
+                                  <>
+                                    <span>•</span>
+                                    <Badge variant="outline" className="text-xs px-1 py-0 h-4">
+                                      High Priority
+                                    </Badge>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="p-6 text-center text-muted-foreground">
+                      <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No notifications yet</p>
+                    </div>
+                  )}
+                </ScrollArea>
+                {user.notifications && user.notifications.length > 10 && (
+                  <div className="p-3 border-t border-border/40 text-center">
+                    <Button variant="ghost" size="sm" className="text-xs">
+                      View all notifications
+                    </Button>
+                  </div>
+                )}
+              </PopoverContent>
+            </Popover>
           )}
 
           {/* Create Bet */}

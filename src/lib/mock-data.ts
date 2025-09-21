@@ -397,3 +397,199 @@ export const mockCommunityStats = {
     { category: "general" as const, count: 12, percentage: 5 }
   ]
 };
+
+export const mockNotifications = [
+  {
+    id: "{{notification-1}}",
+    title: "{{Bet Won! Lakers Victory}}",
+    message: "{{Your Lakers vs Warriors bet just paid out! You earned 1,250 points.}}",
+    type: "bet_won" as const,
+    timestamp: "{{2024-01-15T14:23:00Z}}",
+    read: false,
+    priority: "high" as const,
+    metadata: {
+      betId: "{{bet-1}}",
+      pointsEarned: 1250,
+      betTitle: "{{Lakers vs Warriors - Who Wins Game 7?}}"
+    },
+    actionUrl: "/my-bets/bet-1"
+  },
+  {
+    id: "{{notification-2}}",
+    title: "{{New Community Member}}",
+    message: "{{CourtVision just joined NBA Finals Fanatics! Welcome them to the community.}}",
+    type: "community_member" as const,
+    timestamp: "{{2024-01-15T13:45:00Z}}",
+    read: false,
+    priority: "medium" as const,
+    metadata: {
+      communityId: "{{community-1}}",
+      communityName: "{{NBA Finals Fanatics}}",
+      userName: "{{CourtVision}}",
+      userAvatar: "{{/avatars/courtvision.jpg}}"
+    },
+    actionUrl: "/communities/community-1"
+  },
+  {
+    id: "{{notification-3}}",
+    title: "{{Achievement Unlocked!}}",
+    message: "{{Congratulations! You've unlocked the 'Hot Streak' badge for winning 5 bets in a row.}}",
+    type: "achievement" as const,
+    timestamp: "{{2024-01-15T12:30:00Z}}",
+    read: true,
+    priority: "high" as const,
+    metadata: {
+      badgeId: "{{badge-2}}",
+      badgeName: "{{Hot Streak}}",
+      badgeColor: "red",
+      streakCount: 5
+    },
+    actionUrl: "/profile/achievements"
+  },
+  {
+    id: "{{notification-4}}",
+    title: "{{Bet Ending Soon}}",
+    message: "{{Your NFL MVP bet closes in 2 hours. Last chance to adjust your prediction!}}",
+    type: "bet_reminder" as const,
+    timestamp: "{{2024-01-15T11:15:00Z}}",
+    read: false,
+    priority: "medium" as const,
+    metadata: {
+      betId: "{{bet-2}}",
+      betTitle: "{{NFL MVP 2025 Season Winner}}",
+      timeRemaining: "2 hours",
+      hasUserBet: true
+    },
+    actionUrl: "/bets/bet-2"
+  },
+  {
+    id: "{{notification-5}}",
+    title: "{{Community Bet Created}}",
+    message: "{{GridironGuru created a new bet: 'Super Bowl Halftime Show Artist'. Join the action!}}",
+    type: "community_bet" as const,
+    timestamp: "{{2024-01-15T10:45:00Z}}",
+    read: true,
+    priority: "low" as const,
+    metadata: {
+      creatorName: "{{GridironGuru}}",
+      creatorAvatar: "{{/avatars/gridironguru.jpg}}",
+      betTitle: "{{Super Bowl Halftime Show Artist}}",
+      communityId: "{{community-2}}",
+      communityName: "{{NFL RedZone Warriors}}"
+    },
+    actionUrl: "/bets/new-halftime-bet"
+  },
+  {
+    id: "{{notification-6}}",
+    title: "{{Leaderboard Update}}",
+    message: "{{You've moved up 2 positions! You're now ranked #3 in the global leaderboard.}}",
+    type: "leaderboard_update" as const,
+    timestamp: "{{2024-01-15T09:30:00Z}}",
+    read: false,
+    priority: "medium" as const,
+    metadata: {
+      oldRank: 5,
+      newRank: 3,
+      pointsGained: 567,
+      positionsChanged: 2
+    },
+    actionUrl: "/leaderboards"
+  },
+  {
+    id: "{{notification-7}}",
+    title: "{{Bet Lost}}",
+    message: "{{Your World Series prediction didn't pan out this time. Better luck next season!}}",
+    type: "bet_lost" as const,
+    timestamp: "{{2024-01-14T22:15:00Z}}",
+    read: true,
+    priority: "low" as const,
+    metadata: {
+      betId: "{{bet-3}}",
+      betTitle: "{{World Series 2025 Champion}}",
+      pointsLost: 500
+    },
+    actionUrl: "/my-bets/bet-3"
+  },
+  {
+    id: "{{notification-8}}",
+    title: "{{Friend Request}}",
+    message: "{{DunkMaster wants to connect! Check out their impressive 89% win rate.}}",
+    type: "friend_request" as const,
+    timestamp: "{{2024-01-14T20:45:00Z}}",
+    read: false,
+    priority: "medium" as const,
+    metadata: {
+      fromUserId: "{{user-2}}",
+      fromUserName: "{{DunkMaster}}",
+      fromUserAvatar: "{{/avatars/dunkmaster.jpg}}",
+      fromUserWinRate: 89,
+      fromUserPoints: 12890
+    },
+    actionUrl: "/profile/friends/requests"
+  },
+  {
+    id: "{{notification-9}}",
+    title: "{{Weekly Summary}}",
+    message: "{{Great week! You won 5 out of 8 bets and earned 567 points. Keep up the momentum!}}",
+    type: "weekly_summary" as const,
+    timestamp: "{{2024-01-14T18:00:00Z}}",
+    read: true,
+    priority: "low" as const,
+    metadata: {
+      betsWon: 5,
+      betsTotal: 8,
+      pointsEarned: 567,
+      winRate: 63,
+      weekNumber: 2
+    },
+    actionUrl: "/profile/statistics"
+  },
+  {
+    id: "{{notification-10}}",
+    title: "{{Community Milestone}}",
+    message: "{{NBA Finals Fanatics just reached 2,500 members! Celebrate with a special tournament bet.}}",
+    type: "community_milestone" as const,
+    timestamp: "{{2024-01-14T16:30:00Z}}",
+    read: false,
+    priority: "low" as const,
+    metadata: {
+      communityId: "{{community-1}}",
+      communityName: "{{NBA Finals Fanatics}}",
+      milestone: "2500 members",
+      milestoneType: "member_count",
+      celebrationBetId: "{{special-tournament-bet}}"
+    },
+    actionUrl: "/communities/community-1/tournament"
+  },
+  {
+    id: "{{notification-11}}",
+    title: "{{System Update}}",
+    message: "{{New feature alert! You can now create group bets with up to 10 friends. Try it out!}}",
+    type: "system_update" as const,
+    timestamp: "{{2024-01-14T12:00:00Z}}",
+    read: true,
+    priority: "low" as const,
+    metadata: {
+      featureName: "{{Group Bets}}",
+      version: "{{v2.1.0}}",
+      maxGroupSize: 10
+    },
+    actionUrl: "/bets/create?type=group"
+  },
+  {
+    id: "{{notification-12}}",
+    title: "{{Bet Payout Processing}}",
+    message: "{{Your winning bet payout of 2,340 points is being processed. It will be added to your account shortly.}}",
+    type: "payout_processing" as const,
+    timestamp: "{{2024-01-14T10:15:00Z}}",
+    read: false,
+    priority: "medium" as const,
+    metadata: {
+      payoutAmount: 2340,
+      betId: "{{special-payout-bet}}",
+      processingStatus: "pending",
+      estimatedTime: "{{5-10 minutes}}"
+    },
+    actionUrl: "/my-bets/payouts"
+  }
+];

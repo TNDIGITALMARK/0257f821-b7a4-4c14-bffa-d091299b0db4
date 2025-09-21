@@ -132,7 +132,7 @@ export default function LeaderboardsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <MainNav user={mockUser} />
+      <MainNav user={{...mockUser, notifications: []}} />
       
       <main className="container mx-auto px-4 py-8">
         {/* Header Section */}
